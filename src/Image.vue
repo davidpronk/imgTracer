@@ -2,6 +2,7 @@
   <div>
     <h3>{{imgPath}}</h3>
     <!--<img :src="imgPath" alt="">-->
+    <h3>{{duration}}</h3>
     <div id="svgcontainer"></div>
   </div>
 </template>
@@ -16,7 +17,7 @@
     props: ['imgPath'],
     data() {
       return {
-
+        duration: ''
       }
     },
     watch: {
@@ -38,12 +39,16 @@
       traceImage(img){
 //console.log(img);
 //return;
+
+        let start = new Date().getTime();
+
         ImageTracer.imageToSVG(
           testImage,
-          function(svgstr){
+          (svgstr) => {
+            this.duration = this.msToHMS(new Date().getTime() - start);
             ImageTracer.appendSVGString( svgstr, 'svgcontainer' );
           },
-          'Posterized2'
+          'Artistic4'
         );
 
 //        ImageTracer.imageToSVG( img, ImageTracer.appendSVGString( svgstr, '#svgcontainer'), {
@@ -91,6 +96,16 @@
       },
       hasAllowedExtension(imgURL) {
         return (/\.(gif|jpg|jp?g|tiff|png)$/i).test(imgURL);
+      },
+      msToHMS(ms) {
+        let seconds = ms / 1000;
+        let hours = parseInt( seconds / 3600 );
+        seconds = seconds % 3600;
+        let minutes = parseInt( seconds / 60 );
+        seconds = seconds % 60;
+        hours = hours < 10 ? `0${hours}`: hours;
+        minutes = minutes < 10 ? `0${minutes}`: minutes;
+        return `${hours}:${minutes}:${seconds}`;
       }
     }
   }

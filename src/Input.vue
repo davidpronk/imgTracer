@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit="addImage">
-      <input name="path" type="text">
+      <input name="path" type="text" value="https://stackoverflow.com/users/5521426/pronkert">
       <button type="submit">Go!</button>
     </form>
   </div>
